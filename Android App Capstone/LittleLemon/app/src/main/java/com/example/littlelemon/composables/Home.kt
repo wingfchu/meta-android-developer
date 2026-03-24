@@ -177,7 +177,7 @@ fun Home(navController: NavHostController){
                 TextField(
                     value = searchPhrase.value,
                     onValueChange = { searchPhrase.value = it },
-                    placeholder = { Text("Enter search phrase") },
+                    placeholder = { R.string.enter_search_phrase },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 8.dp)
