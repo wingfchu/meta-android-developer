@@ -7,6 +7,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,17 +15,21 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -56,8 +61,10 @@ fun Home(navController: NavHostController){
 
     val context = LocalContext.current
     val databaseMenuItems by MenuDatabase.getDatabase(context).menuItemDao().getAll().observeAsState(emptyList())
-    //val databaseMenuItems = emptyList<MenuItemRoom>()
-    val searchPhrase = remember { mutableStateOf("") }
+
+    var searchPhrase by remember { mutableStateOf("") }
+    val categoryList = listOf("Starters", "Mains", "Desserts", "Drinks")
+    var selectedCategory by remember { mutableStateOf("") }
 
     Surface(
         modifier = Modifier.fillMaxWidth(),
@@ -99,72 +106,69 @@ fun Home(navController: NavHostController){
             } // end of Header
 
             //Hero section
-            Row (
+            Column (
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(color = green)
                     .padding(8.dp),
             ) {
-                Column{
-                    Text(
-                        text = stringResource(R.string.title),
-                        style = h1,
-                        color = yellow,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                }
+                Text(
+                    text = stringResource(R.string.title),
+                    style = display_title,
+                    color = yellow,
+                    modifier = Modifier.fillMaxWidth()
+                )
 
-            }
-
-            Row(modifier = Modifier
-                .fillMaxWidth()
-                .background(color = green)
-                .padding(8.dp),
-                horizontalArrangement = Arrangement.SpaceEvenly,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-
-                // Left Column (Location, Description)
-                Column(
-                    modifier = Modifier.fillMaxWidth(0.6f)
+                Row(modifier = Modifier
+                    .fillMaxWidth()
+                    .background(color = green),
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
 
-                    Text(
-                        text = stringResource(R.string.location),
-                        style = MaterialTheme.typography.titleLarge,
-                        color = cloud,
-                        fontWeight = FontWeight.Bold,
-                    )
+                    // Left Column (Location, Description)
+                    Column(
+                        modifier = Modifier.fillMaxWidth(0.6f)
+                    ) {
 
-                    Spacer(modifier = Modifier.height(8.dp))
-
-                    Text(
-                        text = stringResource(R.string.description),
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = cloud,
-                        modifier = Modifier
-                            .padding(end = 8.dp),
-                    )
-
-                }
-                // Image Column
-                Column(
-                    verticalArrangement = Arrangement.Center,
-                ) {
-
-                    Image(
-                        painter = painterResource(R.drawable.hero_image),
-                        contentDescription = "Hero Image",
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                            //.fillMaxWidth(0.6f)
-                            .size(150.dp)
-                            .clip(shape = Shapes.medium),
-
+                        Text(
+                            text = stringResource(R.string.location),
+                            style = sub_title,
+                            color = cloud,
+                            fontWeight = FontWeight.Bold,
                         )
-                }
 
-            }
+//                    Spacer(modifier = Modifier.height(8.dp))
+
+                        Text(
+                            text = stringResource(R.string.description),
+                            style = lead_text,
+                            color = cloud,
+                            modifier = Modifier
+                                .padding(end = 8.dp),
+                        )
+
+                    }
+                    // Image Column
+                    Column(
+                        verticalArrangement = Arrangement.Center,
+                    ) {
+
+                        Image(
+                            painter = painterResource(R.drawable.hero_image),
+                            contentDescription = "Hero Image",
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier
+                                //.fillMaxWidth(0.6f)
+                                .size(150.dp)
+                                .clip(shape = Shapes.medium),
+
+                            )
+                    }
+
+                }
+            } // Hero Section
+
 
             // Search TextField
             Row(
@@ -175,8 +179,8 @@ fun Home(navController: NavHostController){
             ) {
 
                 TextField(
-                    value = searchPhrase.value,
-                    onValueChange = { searchPhrase.value = it },
+                    value = searchPhrase,
+                    onValueChange = { searchPhrase = it },
                     placeholder = { R.string.enter_search_phrase },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -201,20 +205,52 @@ fun Home(navController: NavHostController){
             ) {
                 Text(
                     text = stringResource(R.string.order_delivery).uppercase(),
-                    style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
-                    color = charcoal)
+                    style = section_title,
+                    color = charcoal
+                )
             }
 
             Spacer(modifier = Modifier.width(16.dp))
 
+            //Menu Category
+            LazyRow(
+                contentPadding = PaddingValues(horizontal = 16.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp)
+            ) {
+                items(categoryList.size) { category ->
+                    val isSelected = categoryList[category] == selectedCategory
+                    CategoryChip(
+                        category = categoryList[category],
+                        isSelected = isSelected,
+                        onCategorySelected = {
+                            Log.d("Home", "Selected category: $it")
+                            if (isSelected){
+                                selectedCategory = ""
+                                return@CategoryChip
+                            } else {
+                                selectedCategory = it
+                                return@CategoryChip
+                            }
+                        }
+                    )
+                }
+            }
 
             //Filtered MenuItems
-            val filteredMenuItems = if  (searchPhrase.value.isBlank()) {
-                databaseMenuItems
-            } else {
-                databaseMenuItems.filter { menuItem ->
-                    menuItem.title.contains(searchPhrase.value, ignoreCase = true)
+            val filteredMenuItems = databaseMenuItems.let {
+                val categoryMenuItem = if (searchPhrase.isBlank()){
+                    it
+                } else {
+                    it.filter { it.title.contains(searchPhrase, ignoreCase = true) }
                 }
+
+                if (selectedCategory.isBlank())
+                    categoryMenuItem
+                else
+                    categoryMenuItem.filter { it.category == selectedCategory.lowercase() }
             }
 
             MenuItemList(menuItemList = filteredMenuItems, context)
@@ -227,6 +263,28 @@ fun Home(navController: NavHostController){
 @Composable
 fun HomePreview(){
     Home(navController = rememberNavController())
+}
+
+@Composable
+fun CategoryChip(
+    category: String,
+    isSelected: Boolean,
+    onCategorySelected: (String) -> Unit = {}
+){
+    val textColor = if (isSelected) cloud else green
+
+    Button(
+        colors = ButtonDefaults.buttonColors(
+            containerColor = if (isSelected) green else cloud),
+        onClick = { onCategorySelected(category) },
+        modifier = Modifier
+            .clip(RoundedCornerShape(8.dp))
+    ){
+        Text(text = category,
+            style = section_title,
+            color = textColor
+        )
+    }
 }
 
 @Composable
@@ -255,11 +313,11 @@ fun MenuItem(item: MenuItemRoom, context: Context) {
         .padding(8.dp),
         horizontalArrangement = Arrangement.SpaceEvenly) {
         Column(modifier = Modifier.fillMaxWidth(0.7f)) {
-            Text(text = item.title, fontWeight = FontWeight.Bold,
+            Text(text = item.title, style = card_title,
                 modifier = Modifier.padding(bottom = 8.dp))
-            Text(text = item.description,
+            Text(text = item.description, style = para_text,
                 modifier = Modifier.padding(bottom = 8.dp))
-            Text(text = "$  ${item.price}")
+            Text(text = "$  ${item.price}", style = highlight_text)
         }
         Column {
             Spacer(modifier = Modifier.width(10.dp))
