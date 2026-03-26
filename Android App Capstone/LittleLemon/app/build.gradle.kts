@@ -59,10 +59,10 @@ dependencies {
 
     implementation("androidx.navigation:navigation-compose:2.6.0")
 
-    implementation ("io.ktor:ktor-client-android:2.3.3")
-    implementation ("io.ktor:ktor-client-logging:2.3.3")
-    implementation ("io.ktor:ktor-client-content-negotiation:2.3.3")
-    implementation ("io.ktor:ktor-serialization-kotlinx-json:2.3.3")
+    implementation ("io.ktor:ktor-client-android:3.4.1")
+    implementation ("io.ktor:ktor-client-logging:3.4.1")
+    implementation ("io.ktor:ktor-client-content-negotiation:3.4.1")
+    implementation ("io.ktor:ktor-serialization-kotlinx-json:3.4.1")
 
     implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)
