@@ -11,6 +11,8 @@
     <string name="caption_first_name">First name</string>
     <string name="caption_last_name">Last name</string>
     <string name="caption_email">Email</string>
+    <string name="register_successful">Registration successful!</string>
+    <string name="register_unsuccessful">Registration unsuccessful. Please enter all data.</string>
     <string name="button_register">Register</string>
     <string name="button_logout">Log out</string>
     <string name="order_delivery">Order for delivery!</string>

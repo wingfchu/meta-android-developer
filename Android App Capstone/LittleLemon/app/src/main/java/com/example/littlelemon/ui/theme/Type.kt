@@ -12,73 +12,47 @@ import com.example.littlelemon.R
 val karlaRegular = FontFamily(Font(R.font.karla_regular))
 val markaziRegular = FontFamily(Font(R.font.markazi_regular))
 
-
-
-val Typography = Typography(
-    bodyLarge = TextStyle(
-        fontFamily = markaziRegular,
-        fontSize = 26.sp,
-        fontWeight = FontWeight.Bold,
-        color = charcoal
-    ),
-    titleLarge = TextStyle(
-        fontFamily = karlaRegular,
-        fontWeight = FontWeight.Normal,
-        fontSize = 22.sp,
-        lineHeight = 28.sp,
-        letterSpacing = 0.sp
-    ),
-    labelSmall = TextStyle(
-        fontFamily = karlaRegular,
-        fontWeight = FontWeight.Medium,
-        fontSize = 11.sp,
-        lineHeight = 16.sp,
-        letterSpacing = 0.5.sp
-    ),
-    headlineLarge = TextStyle(
-        fontFamily = markaziRegular,
-        fontSize = 32.sp,
-        fontWeight = FontWeight.Bold,
-        color = charcoal
-    ),
-
-    )
-
-val  h1 = TextStyle(
+val display_title = TextStyle(
     fontFamily = markaziRegular,
-    fontSize = 40.sp,
-    fontWeight = FontWeight.Bold,
-    letterSpacing = 0.1.em,
-    color = charcoal
+    fontSize = 64.sp,
+    fontWeight = FontWeight.Medium,
 )
 
-val h2 = TextStyle(
+val sub_title = TextStyle(
+    fontFamily = markaziRegular,
+    fontWeight = FontWeight.Normal,
+    fontSize = 40.sp
+)
+
+val lead_text = TextStyle(
     fontFamily = karlaRegular,
-    color = charcoal,
     fontSize = 18.sp,
-    fontWeight = FontWeight.Bold
+    fontWeight = FontWeight.Medium
 )
 
-val body1 = TextStyle(
+val section_title = TextStyle(
     fontFamily = karlaRegular,
-    color = green
+    fontWeight = FontWeight.ExtraBold,
+    fontSize = 20.sp,
 )
 
-val body2 = TextStyle(
-    fontFamily = markaziRegular,
+val card_title = TextStyle(
+    fontFamily = karlaRegular,
     fontWeight = FontWeight.Bold,
+    fontSize = 18.sp
+)
+
+val para_text = TextStyle(
+    fontFamily = karlaRegular,
+    fontWeight = FontWeight.Normal,
+    fontSize = 16.sp,
+    lineHeight = 1.5.em,
     color = green
 )
 
-val caption = TextStyle(
-    fontFamily = markaziRegular,
-    fontWeight = FontWeight.Normal,
-    fontSize = 14.sp
-)
-
-val button = TextStyle(
+val highlight_text = TextStyle(
     fontFamily = karlaRegular,
-    fontWeight = FontWeight.Normal,
-    fontSize = 14.sp,
-    letterSpacing = 0.1.em
+    fontWeight = FontWeight.Medium,
+    fontSize = 16.sp,
+    color = green
 )
