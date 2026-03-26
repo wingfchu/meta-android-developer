@@ -13,8 +13,7 @@ import com.example.littlelemon.composables.Profile
 @Composable
 fun NavigationComposable(context: Context, navController: NavHostController) {
     val isLoggedIn = context.getSharedPreferences("LittleLemon", Context.MODE_PRIVATE).getBoolean("isLoggedIn", false)
-    val startDestination = Onboarding.route
-//    val startDestination = if (isLoggedIn) Home.route else Onboarding.route
+    val startDestination = if (isLoggedIn) Home.route else Onboarding.route
 
     NavHost(navController = navController, startDestination = startDestination){
         composable(Home.route){
