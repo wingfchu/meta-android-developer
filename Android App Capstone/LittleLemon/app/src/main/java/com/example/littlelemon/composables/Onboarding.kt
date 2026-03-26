@@ -219,5 +219,6 @@ private fun saveUserData(context: Context, firstName: String, lastName: String, 
         putString("firstName", firstName)
         putString("lastName", lastName)
         putString("email", email)
+        putBoolean("isLoggedIn", true)
     }
 }
